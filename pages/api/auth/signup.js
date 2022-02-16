@@ -7,7 +7,8 @@ import {connectToDatabase} from '../../../lib/db';
 async function handler(req,res) {
     if (req.method !== 'POST'){
         return;
-    }
+  }
+  console.log("got here");
 
     const data = req.body;
 

@@ -1,39 +1,123 @@
-import {useState} from 'react';
-import classes from './auth-form.module.css';
+import { useState, useRef } from "react";
+import { signIn } from "next-auth/client";
+import { useRouter } from "next/router";
 
+import classes from "./Auth-Form.module.css";
 
-function AuthForm() {
-    const [isLogin, setIsLogin] = useState(true);
-  
-    function switchAuthModeHandler() {
-      setIsLogin((prevState) => !prevState);
-    }
-  
-    return (
-      <section className={classes.auth}>
-        <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-        <form>
-          <div className={classes.control}>
-            <label htmlFor='email'>Your Email</label>
-            <input type='email' id='email' required />
-          </div>
-          <div className={classes.control}>
-            <label htmlFor='password'>Your Password</label>
-            <input type='password' id='password' required />
-          </div>
-          <div className={classes.actions}>
-            <button>{isLogin ? 'Login' : 'Create Account'}</button>
-            <button
-              type='button'
-              className={classes.toggle}
-              onClick={switchAuthModeHandler}
-            >
-              {isLogin ? 'Create new account' : 'Login with existing account'}
-            </button>
-          </div>
-        </form>
-      </section>
-    );
+async function createUser(email, password) {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Something went wrong!");
   }
-  
-  export default AuthForm;
+
+  return data;
+}
+
+const Auth = () => {
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+
+  const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+
+  function switchAuthModeHandler() {
+    setIsLogin((prevState) => !prevState);
+  }
+
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+
+    // optional: Add validation
+
+    if (isLogin) {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: enteredEmail,
+        password: enteredPassword,
+      });
+
+      if (!result.error) {
+        // set some auth state
+        router.replace("/events");
+      }
+    } else {
+      try {
+        const result = await createUser(enteredEmail, enteredPassword);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  return (
+    <div className={`${classes.auth} d-flex justify-content-center`}>
+      <form onSubmit={submitHandler}>
+        <div className="form-group">
+          <label htmlFor="email" className="form-label col-md-5 col-sm-12">
+            Email address
+          </label>
+          <input
+            type="email"
+            className="form-control col-md-3 col-sm-12"
+            id="email"
+            aria-describedby="emailHelp"
+            ref={emailInputRef}
+          />
+          <div id="emailHelp" className={classes.text}>
+            <p>We&apos;ll never share your email.</p>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password" className="form-label col-md-2 col-sm-12">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control col-md-3 col-sm-12"
+            id="password"
+            ref={passwordInputRef}
+          />
+        </div>
+
+        <div className="form-group col-auto">
+          <span id="passwordHelpInline" className={classes.text}>
+            Must be 8-20 characters long.
+          </span>
+        </div>
+        <div className="mb-3 form-check">
+          <input type="checkbox" className="form-check-input" id="approve" />
+          <label className="approve" htmlFor="approve">
+            Check me out
+          </label>
+        </div>
+        <div className={classes.signup}>sign-up | forgot password</div>
+
+        <div className={classes.actions}>
+          <button>{isLogin ? "Login" : "Create Account"}</button>
+          <button
+            type="button"
+            className={classes.toggle}
+            onClick={switchAuthModeHandler}
+          >
+            {isLogin ? "Create new account" : "Login with existing account"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+export default Auth;
