@@ -1,0 +1,20 @@
+import {MongoClient} from 'mongodb';
+
+export async function getEvents(){
+
+      const client = await MongoClient.connect(
+        `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.aqjbw.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
+    );
+  const db = client.db();
+   const eventsCollection = db.collection('events');
+   const allevents = await eventsCollection.find().toArray();
+
+   allevents.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+   client.close();
+  
+  return allevents;
+
+
+
+}
+
