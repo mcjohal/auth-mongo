@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import Provider from 'next-auth/providers';
 
-import {verifyPassword} from '../../../lib/auth';
-import {connectToDatabase} from '../../../lib/db';
+import {verifyPassword} from '../../../helpers/auth';
+import {connectToDatabase} from '../../../helpers/db';
 
 
 export default NextAuth({

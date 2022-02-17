@@ -5,9 +5,14 @@ import { useRouter } from "next/router";
 import classes from "./Auth-Form.module.css";
 
 async function createUser(email, password) {
+
+  const cred = {
+    email: email,
+    password:password,
+  };
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(cred),
     headers: {
       "Content-Type": "application/json",
     },
@@ -26,7 +31,7 @@ const Auth = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
 
   function switchAuthModeHandler() {
@@ -35,6 +40,7 @@ const Auth = () => {
 
   async function submitHandler(event) {
     event.preventDefault();
+    console.log('isLogin', isLogin);
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -104,17 +110,11 @@ const Auth = () => {
             Check me out
           </label>
         </div>
-        <div className={classes.signup}>sign-up | forgot password</div>
+       <div className="row">
+         <div className="col">
+           <button type="submit" className="btn btn-secondary btn-sm">Submit</button>
 
-        <div className={classes.actions}>
-          <button>{isLogin ? "Login" : "Create Account"}</button>
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </button>
+         </div>
         </div>
       </form>
     </div>

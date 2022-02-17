@@ -1,8 +1,14 @@
 .starting {
-  margin: 3rem auto;
-  text-align: center;
+  margin: 3rem 1rem;
+
 }
 
 .starting h1 {
   font-size: 5rem;
+}
+
+
+@media screen and (max-width:1080px)
+{
+ 
 }

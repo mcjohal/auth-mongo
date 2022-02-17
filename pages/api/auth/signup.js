@@ -1,5 +1,5 @@
-import {hashPassword} from '../../../lib/auth';
-import {connectToDatabase} from '../../../lib/db';
+import {hashPassword} from '../../../helpers/auth';
+import {connectToDatabase} from '../../../helpers/db';
 
 
 
