@@ -19,6 +19,9 @@ function MainNavigation() {
             <Link href='/profile'>Profile</Link>
           </li>
           <li>
+            <Link href='/events'>Events</Link>
+          </li>
+          <li>
             <button>Logout</button>
           </li>
         </ul>

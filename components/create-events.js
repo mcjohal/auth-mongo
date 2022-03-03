@@ -1,16 +1,16 @@
 import { useState, useRef } from "react";
-import { signIn } from "next-auth/client";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import classes from "./Auth-Form.module.css";
 
-async function createUser(email, password) {
+
+async function creatEvent(email, password) {
 
   const cred = {
     email: email,
     password:password,
   };
-  const response = await fetch("/api/auth/signup", {
+  const response = await fetch("/api/auth/create-event", {
     method: "POST",
     body: JSON.stringify(cred),
     headers: {
@@ -27,7 +27,7 @@ async function createUser(email, password) {
   return data;
 }
 
-const Auth = () => {
+const CreateEvent = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
@@ -120,4 +120,4 @@ const Auth = () => {
     </div>
   );
 };
-export default Auth;
+export default CreateEvent;
