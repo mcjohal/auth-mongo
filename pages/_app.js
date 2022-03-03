@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from '../components/layout/layout';
 import '../styles/globals.css';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
+import { Provider } from "next-auth/client";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
 
@@ -20,9 +23,12 @@ function MyApp({ Component, pageProps }) {
 
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      <ToastContainer />
+    </Provider>
   );
 }
 

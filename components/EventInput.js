@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify'
+import Router from 'next/router' 
 
 
 const EventInput = () => {
@@ -21,6 +22,7 @@ const EventInput = () => {
       setLocation('')
       setTitle('')
       setRt_event('')
+      Router.push('/events')
     } catch (err) {
       toast.error(err.response.data.msg);
     }
