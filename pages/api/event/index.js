@@ -82,8 +82,8 @@ const deleteEvent = async (req, res) => {
 
 const updateEvent = async (req, res) => {
   try {
-    console.log("req in updateEvent", req.body);
-    const { id, title, location, rt_event } = req.body;
+    console.log("req in updateEvent", req.body.updateEvent);
+    const { id, title, location, rt_event } = req.body.updateEvent;
     
 
     if (!title) return res.status(400).json({ msg: "Please add title." });

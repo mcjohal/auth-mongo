@@ -33,10 +33,7 @@ const EventUpdateInput = (props) => {
         rt_event: enteredRt_event,
         
       };
-      const res = await axios.patch("/api/event", { id:id,
-        title: enteredTitle,
-        location: enteredLocation,
-        rt_event: enteredRt_event,})
+      const res = await axios.patch("/api/event", {updateEvent})
       toast.success(res.data.msg)      
       Router.push('/events')
     } catch (err) {
