@@ -5,6 +5,13 @@ import { useEffect } from 'react';
 import { Provider } from "next-auth/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+require("react/package.json"); // react is a peer dependency. 
+
+require("react-dom/package.json"); // react-dom is a peer dependency. 
+var reactLoaderSpinner = require("react-loader-spinner")
+
+
+
 
 function MyApp({ Component, pageProps }) {
 
@@ -28,6 +35,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </Layout>
       <ToastContainer />
+    
     </Provider>
   );
 }

@@ -11,7 +11,7 @@ module.exports = (phase) => {
         mongodb_username: "mari",
         mongodb_password: "giniDelia1967",
         mongodb_clustername: "cluster0",
-        mongodb_database: "authdb-dev",
+        mongodb_database: "authdb",
         NEXTAUTH_URL: "http://localhost:3000/",
       },
     };

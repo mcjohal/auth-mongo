@@ -5,6 +5,7 @@ import { getSession } from "next-auth/client";
 connectDB();
 
 export default async function eventHandler(req, res) {
+  console.log("method", req);
   switch (req.method) {
     case "POST":
       await createEvent(req, res);
@@ -14,6 +15,9 @@ export default async function eventHandler(req, res) {
       break;
     case "DELETE":
       await deleteEvent(req, res);
+      break;
+    case "PATCH":
+      await updateEvent(req, res);
       break;
   }
 }
@@ -27,7 +31,7 @@ const createEvent = async (req, res) => {
     //  else
     //  {
     //   console.log('session',{session})
-    console.log("req.body", req.body);
+    console.log("req.body", req.body.newEvent);
     //   }
     const { title, location, rt_event } = req.body.newEvent;
 
@@ -35,11 +39,10 @@ const createEvent = async (req, res) => {
     if (!location) return res.status(400).json({ msg: "Please add location." });
 
     const newEvent = new Events({
-      title: title.toLowerCase(),
+      title: title,
       location: location,
       rt_event: rt_event,
     });
-   
 
     await newEvent.save();
     res.json({ msg: "Success! Created a new Event." });
@@ -50,7 +53,6 @@ const createEvent = async (req, res) => {
 
 const getEvents = async (req, res) => {
   try {
-    console.log("got here get Events");
     //    const session = await getSession({req})
     //   if(!session){
     //        return res.status(400).json({msg: "Invalid Authentication!"})
@@ -59,7 +61,7 @@ const getEvents = async (req, res) => {
     // const {userId} = session
 
     const events = await Events.find();
-    console.log("events", events);
+
     res.json(events);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -71,8 +73,25 @@ const deleteEvent = async (req, res) => {
     const id = req.body.id;
 
     console.log("id", id);
-    await Events.findOneAndDelete(id);
+    await Events.findByIdAndDelete(id);
     res.json({ msg: "Success! Event has been deleted." });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const updateEvent = async (req, res) => {
+  try {
+    console.log("req in updateEvent", req.body);
+    const { id, title, location, rt_event } = req.body;
+    
+
+    if (!title) return res.status(400).json({ msg: "Please add title." });
+    if (!location) return res.status(400).json({ msg: "Please add location." });
+
+    await Events.findByIdAndUpdate(id,{title:title,location:location,rt_event:rt_event});
+
+    res.json({ msg: "Success! Event has been updated." });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

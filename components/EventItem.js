@@ -4,9 +4,11 @@ import { toast } from "react-toastify";
 import Router from "next/router";
 
 const EventItem = ({ event }) => {
+
+  const id = event._id;
+
   const deleteHandler = async () => {
-    try {
-      const id = event._id;
+    try {      
       const res = await axios.delete("api/event", { id });
       toast.success(res.data.msg);
       Router.push("/events");
@@ -16,10 +18,7 @@ const EventItem = ({ event }) => {
   };
 
   const updateHandler = async () => {
-    try {
-    } catch (err) {
-      toast.error(err.response.data.msg);
-    }
+    Router.push(`/events/event-update/${id}`)
   };
   return (
     <div id="event-list" className="border shadow-sm rounded my-3">
@@ -42,7 +41,7 @@ const EventItem = ({ event }) => {
           <a href="#" onClick={updateHandler}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              enable-background="new 0 0 24 24"
+              enableBackground="new 0 0 24 24"
               height="24px"
               viewBox="0 0 24 24"
               width="24px"

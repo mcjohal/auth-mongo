@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import Router from 'next/router' 
 
 
-const EventInput = () => {
+const EventCreateInput = () => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [rt_event, setRt_event] = useState(false);
@@ -84,4 +84,4 @@ const EventInput = () => {
   );
 };
 
-export default EventInput;
+export default EventCreateInput;

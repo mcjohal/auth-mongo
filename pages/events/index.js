@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import EventInput from "../components/EventInput";
+import EventCreateInput from '../../components/EventCreateInput';
 import axios from "axios";
 import { toast } from "react-toastify";
-import EventItem from "../components/EventItem";
+import EventItem from "../../components/EventItem";
 
 const Events = () => {
   const [loading, setLoading] = useState(false);
@@ -23,8 +23,8 @@ const Events = () => {
   }, []);
   return (
     <div>
-      <EventInput />
-      <div className="container">
+      <EventCreateInput />
+     <div className="container">
         {
         events.map((event) => (
           <EventItem key={event._id} event={event} />
