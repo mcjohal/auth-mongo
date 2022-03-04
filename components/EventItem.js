@@ -54,10 +54,9 @@ const EventItem = ({ event }) => {
         </div>
       </div>
       <div className="row my-3 p-2">
-        <div className="col-md-1 col-sm-3 col-3">Location:</div>
-        <div className="col-md-5 col-sm-9 col-9">{event.location}</div>
-        <div className="col-md-1 col-sm-3 col-3">RT Event:</div>
-        <div className="col-md-5 col-sm-9 col-9">{event.location}</div>
+        <div className="col-md-2 col-sm-3 col-3">Location:</div>
+        <div className="col-md-6 col-sm-5 col-5">{event.location}</div>
+        <div className="col-md-4 col-sm-4 col-4">{event.rt_event && "This is an RT Event"}</div>
       </div>
     </div>
   );
