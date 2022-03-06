@@ -5,17 +5,15 @@ import Router from "next/router";
 
 const EventItem = ({ event }) => {
 
-  const id = event._id;
-
-  const deleteHandler = async () => {
-    try {      
-      const res = await axios.delete("api/event", { id });
-      toast.success(res.data.msg);
-      Router.push("/events");
-    } catch (err) {
-      toast.error(err.response.data.msg);
-    }
-  };
+  const id = event._id
+const deleteHandler = async () => {
+  try {
+    const res = await axios.delete("api/event", event._id);
+    toast.success(res.data.msg);
+  } catch (err) {
+    toast.error(err.response.data.msg);
+  }
+};
 
   const updateHandler = async () => {
     Router.push(`/events/event-update/${id}`)

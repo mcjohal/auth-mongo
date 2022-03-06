@@ -5,9 +5,9 @@ const ModalMessage = (props) => {
 return(
     <Fragment>
 
-<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    {/*<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Launch demo modal
-</button>
+</button>*/}
 
 
 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

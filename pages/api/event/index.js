@@ -68,12 +68,11 @@ const getEvents = async (req, res) => {
   }
 };
 const deleteEvent = async (req, res) => {
-  console.log("req.body", req);
   try {
     const id = req.body.id;
-
+    console.log("req.body", req.body);
     console.log("id", id);
-    await Events.findByIdAndDelete(id);
+    await Events.findOneAndDelete(id);
     res.json({ msg: "Success! Event has been deleted." });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -84,12 +83,15 @@ const updateEvent = async (req, res) => {
   try {
     console.log("req in updateEvent", req.body.updateEvent);
     const { id, title, location, rt_event } = req.body.updateEvent;
-    
 
     if (!title) return res.status(400).json({ msg: "Please add title." });
     if (!location) return res.status(400).json({ msg: "Please add location." });
 
-    await Events.findByIdAndUpdate(id,{title:title,location:location,rt_event:rt_event});
+    await Events.findByIdAndUpdate(id, {
+      title: title,
+      location: location,
+      rt_event: rt_event,
+    });
 
     res.json({ msg: "Success! Event has been updated." });
   } catch (err) {
