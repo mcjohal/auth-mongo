@@ -3,17 +3,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Router from "next/router";
 
-const EventItem = ({ event }) => {
+const EventItem = (props) => {
 
-  const id = event._id
+  const id = props.event._id
 const deleteHandler = async () => {
-  try {
-    const res = await axios.delete("api/event", event._id);
-    toast.success(res.data.msg);
-  } catch (err) {
-    toast.error(err.response.data.msg);
-  }
-};
+    props.onDeleteHandler(id)
+  };
+
+
 
   const updateHandler = async () => {
     Router.push(`/events/event-update/${id}`)
@@ -22,9 +19,9 @@ const deleteHandler = async () => {
     <div id="event-list" className="border shadow-sm rounded my-3">
       <div className="row my-3 p-2  text-capitalized">
         <div className="col-md-1 col-3">Title:</div>
-        <div className="col-md-7 col-6">{event.title}</div>
+        <div className="col-md-7 col-6">{props.event.title}</div>
         <div className="col-md-3 col-3">
-          <a href="#" onClick={deleteHandler}>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modalConfirm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -53,8 +50,10 @@ const deleteHandler = async () => {
       </div>
       <div className="row my-3 p-2">
         <div className="col-md-2 col-sm-3 col-3">Location:</div>
-        <div className="col-md-6 col-sm-5 col-5">{event.location}</div>
-        <div className="col-md-4 col-sm-4 col-4">{event.rt_event && "This is an RT Event"}</div>
+        <div className="col-md-6 col-sm-5 col-5">{props.event.location}</div>
+        <div className="col-md-4 col-sm-4 col-4">
+          {props.event.rt_event && "This is an RT Event"}
+        </div>
       </div>
     </div>
   );

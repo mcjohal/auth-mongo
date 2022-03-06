@@ -2,6 +2,10 @@ import { Fragment } from "react";
 
 const ModalConfirm = (props) => {
 
+  const responseHandler = () => {
+    const id = props.id
+    props.onModalResponse(id)
+   }
 
  
   
@@ -44,6 +48,7 @@ const ModalConfirm = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={responseHandler}
               
               >
                 Delete
