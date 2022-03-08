@@ -3,6 +3,7 @@ import {connectToDatabase} from '../helpers/db';
 import ListCustomers from '../components/list/list-customers';
 import {Fragment} from 'react';
 import MessageModal from '../components/ui/modal-message';
+import { getSession } from 'next-auth/client'
 
 function HomePage(props) {
   return(
@@ -16,7 +17,18 @@ function HomePage(props) {
   
 }
 
-export async function getStaticProps(){
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  
+  if(!session){
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
 
   const client = await connectToDatabase();
   const customersCollection = client.db().collection('customers');
@@ -33,9 +45,11 @@ export async function getStaticProps(){
         cellPhone: customer.data.cellPhone || "",
       })
       ),
+      props: { session }
     },
     revalidate: 20,
   };
+  
+ 
 }
-
 export default HomePage;

@@ -17,7 +17,7 @@ function MainNavigation() {
         <ul>
           {!session &&
           <li>
-            <Link href="/auth">Login</Link>
+            <Link href="/login">Login</Link>
           </li> }
           <li>
             <Link href="/profile">Profile</Link>
