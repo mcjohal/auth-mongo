@@ -1,18 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signIn } from "next-auth/client";
 import { useRouter } from "next/router";
-
-import classes from "./Auth-Form.module.css";
+import classes from "./auth-form.module.css";
+import {toast} from 'react-toastify';
 
 async function createUser(email, password) {
-
-  const cred = {
-    email: email,
-    password:password,
-  };
+  const credData = { email: email, password: password };
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify(cred),
+    body: JSON.stringify(credData),
     headers: {
       "Content-Type": "application/json",
     },
@@ -21,6 +17,7 @@ async function createUser(email, password) {
   const data = await response.json();
 
   if (!response.ok) {
+    toast.error(data.message || "Something went wrong!");
     throw new Error(data.message || "Something went wrong!");
   }
 
@@ -31,16 +28,29 @@ const Auth = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [buttonLabel, setButtonLabel] = useState("Login");
+  const [loading,setLoading] = useState(false);
+
+   useEffect(() =>{
+     setLoading(true);
+     emailInputRef.current.focus();
+     setLoading(false);
+   },[])
+
   const router = useRouter();
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState);
+    if (buttonLabel === "Login") {
+      setButtonLabel("Sign Up");
+    } else {
+      setButtonLabel("Login");
+    }
   }
 
   async function submitHandler(event) {
     event.preventDefault();
-    console.log('isLogin', isLogin);
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -48,6 +58,10 @@ const Auth = () => {
     // optional: Add validation
 
     if (isLogin) {
+      if(!enteredEmail){
+        toast.error("Enter email address.");
+        return;
+      }
       const result = await signIn("credentials", {
         redirect: false,
         email: enteredEmail,
@@ -56,12 +70,21 @@ const Auth = () => {
 
       if (!result.error) {
         // set some auth state
+        emailInputRef.current.value= '';
+        passwordInputRef.current.value='';
         router.replace("/events");
+      }
+      else
+      {
+        toast.error(result.error);
       }
     } else {
       try {
         const result = await createUser(enteredEmail, enteredPassword);
         console.log(result);
+        emailInputRef.current.value = "";
+        passwordInputRef.current.value = "";
+        router.replace("/profile");
       } catch (error) {
         console.log(error);
       }
@@ -110,11 +133,23 @@ const Auth = () => {
             Check me out
           </label>
         </div>
-       <div className="row">
-         <div className="col">
-           <button type="submit" className="btn btn-secondary btn-sm">Submit</button>
+        <div>
+          {isLogin && (
+            <a href="#" onClick={switchAuthModeHandler}>
+              sign-up
+            </a>
+          )}
+          {!isLogin && (
+            <a href="#" onClick={switchAuthModeHandler}>
+              Login
+            </a>
+          )}  |  <span>forgot password</span>
+        </div>
 
-         </div>
+        <div className={`${classes.actions} my-3`}>
+          <button type="submit" className="btn btn-dark btn-md">
+            {buttonLabel}
+          </button>
         </div>
       </form>
     </div>
