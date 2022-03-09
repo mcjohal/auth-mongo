@@ -4,10 +4,10 @@ import MainNavigation from './main-navigation';
 
 function Layout(props) {
   return (
-    <Fragment>
+    <div className="container-fluid" style={{marginTop:'7rem',}}>
       <MainNavigation />
       <main>{props.children}</main>
-    </Fragment>
+    </div>
   );
 }
 

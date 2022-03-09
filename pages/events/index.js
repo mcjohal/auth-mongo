@@ -4,12 +4,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import EventItem from "../../components/EventItem";
 import ModalConfirm from "../../components/ui/modal-confirm"
+import { connectToDatabase } from "../../helpers/db";
 
-const Events = () => {
+
+const Events = (props) => {
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
+  {/*useEffect(() => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
@@ -21,7 +23,7 @@ const Events = () => {
       }
     }
     fetchEvents()
-  }, []);
+  }, []); This works well but it does not refresh without a trigger.  I will try getstaticprops with revalidate.*/} 
 
    const deleteEventHandler = async (id) => {
   try {
@@ -36,7 +38,7 @@ const Events = () => {
       <EventCreateInput />
      <div className="container">
         {
-          events.map((event) => (
+          props.events.map((event) => (
             <EventItem key={event._id} event={event}
               onDeleteHandler= {deleteEventHandler}
           />
@@ -50,5 +52,25 @@ const Events = () => {
     </div>
   );
 };
+
+export async function getStaticProps(){
+  const client = await connectToDatabase();
+  const eventsCollection = client.db().collection("events");
+  const events = await eventsCollection.find().toArray();
+  console.log(events);
+  
+
+  return{
+    props:{
+      events:events.map((event) =>({
+        title:event.title || "",
+        location:event.location || "",
+        rt_event:event.rt_event,
+        id: event._id.toString(),
+      })),
+    },
+    revalidate:5,
+  }
+}
 
 export default Events;

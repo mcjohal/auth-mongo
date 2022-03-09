@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
-    import('bootstrap/dist/js/bootstrap.bundle');
+    import("bootstrap/dist/js/bootstrap.bundle")
     import("jquery");
     
     //added the line below so that tooltip works

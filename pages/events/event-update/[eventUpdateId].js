@@ -45,7 +45,7 @@ export async function getStaticProps(context){
   //fetch data for a single event
   const eventUpdateId = context.params.eventUpdateId;
 
-   const client = await connectToDatabase();
+  const client = await connectToDatabase();
   const eventsCollection = client.db().collection('events');
 
 
