@@ -3,14 +3,45 @@ import ReactPaginate from 'react-paginate'
 import StartingPageContent from '../components/starting-page/starting-page';
 import {connectToDatabase} from '../helpers/db';
 import ListCustomers from '../components/list/list-customers';
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import MessageModal from '../components/ui/modal-message';
 import { getSession } from 'next-auth/client'
 
 
 function HomePage(props) {
+ console.log('count',props.customers.length)
+ 
+  const fetchCustomers = async(currentPage) => {
+  //  const res = await fetch(props.customers?)
+  }
+  const handlePageClick = (data) =>{
+    console.log(data.selected)
+    let currentPage = data.selected + 1
+  //  const customerFromDb = 
+  }
+
   return(
     <Fragment>
+
+      <ReactPaginate
+      previousLabel={'Previous'}
+      nextLabel={'Next'}
+      breakLabel={'...'}
+      pageCount={10}
+      marginPagesDisplayed={0}
+      pageRangeDisplayed={2}
+      onPageChange={handlePageClick}
+      containerClassName={"pagination justify-content-center"}
+      pageClassName={"page-item"}
+      pageLinkClassName={"page-link"}
+      previousClassName={"page-item"}
+      previousLinkClassName={"page-link"}
+      nextClassName={"page-item"}
+      nextLinkClassName={"page-link"}
+      breakClassName={"page-item"}
+      breakLinkClassName={"page-link"}
+      activeClassName={"active"}
+      />
        <StartingPageContent />
        <ListCustomers customers={props.customers}/>
     
@@ -36,6 +67,8 @@ export async function getServerSideProps(context) {
   const client = await connectToDatabase();
   const customersCollection = client.db().collection('customers');
   const customers = await customersCollection.find().toArray();
+  const customerCount = customers.count
+  const customerPage = customers.pageCount
   client.close();
   const notUndefined = (anyValue) => typeof anyValue !== "undefined";
   return{
@@ -49,7 +82,9 @@ export async function getServerSideProps(context) {
         cellPhone: customer.data.cellPhone || "",
       })),
       revalidate: 20,
-      session:session
+      session:session,
+     
+   
       
   
      
