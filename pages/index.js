@@ -1,14 +1,14 @@
-import StartingPageContent from '../components/starting-page/starting-page';
+import CreateAnnouncements from '../components/Announcements/create-announcements';
 import {connectToDatabase} from '../helpers/db';
-import ListCustomers from '../components/list/list-customers';
+import ListAnnouncements from '../components/list/list-announcements';
 import {Fragment} from 'react';
 import MessageModal from '../components/ui/modal-message';
 
 function HomePage(props) {
   return(
     <Fragment>
-       <StartingPageContent />
-       <ListCustomers customers={props.customers}/>
+       <CreateAnnouncements />
+       <ListAnnouncements announcements={props.announcements}/>
     
        <MessageModal title="Test Message"  message="This is a test message"/>
    </Fragment>
@@ -19,18 +19,17 @@ function HomePage(props) {
 export async function getStaticProps(){
 
   const client = await connectToDatabase();
-  const customersCollection = client.db().collection('customers');
-  const customers = await customersCollection.find().toArray();
+  const announcementsCollection = client.db().collection('announcements');
+  const announcements = await announcementsCollection.find().toArray();
   client.close();
   const notUndefined = (anyValue) => typeof anyValue !== "undefined";
   return{
     props:{
-      customers: customers.map((customer)=> ({
-        id: customer._id.toString(),
-        firstName: customer.data.firstName,
-        lastName: customer.data.lastName,
-        email: customer.data.email || "",
-        cellPhone: customer.data.cellPhone || "",
+      announcements: announcements.map((announcement)=> ({
+        id: announcement._id.toString(),
+        date: announcement.data.date,
+        announcement: customer.data.announcement,
+ 
       })
       ),
     },

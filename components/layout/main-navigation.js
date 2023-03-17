@@ -1,6 +1,7 @@
 import Link from "next/link";
 import classes from "./main-navigation.module.css";
 import {useSession,signOut} from 'next-auth/client';
+import Image from 'next/image';
 
 function MainNavigation() {
   const [session, loading] = useSession()
@@ -8,30 +9,28 @@ function MainNavigation() {
   console.log('session', {session});
   return (
     <header className={classes.header}>
-      <Link href="/">
+      <Link  href="/">
         <a>
-          <div className={classes.logo}>Next Auth</div>
+          <div ><Image src="/j28.png" width={150} height={70} alt="logo"/></div>
         </a>
       </Link>
       <nav>
         <ul>
-          {!session &&
-          <li>
+          {/*!session &&
+         <li>
             <Link href="/auth">Login</Link>
-          </li> }
-          <li>
-            <Link href="/profile">Profile</Link>
-          </li>
+          </li>*/}
+          
 
-          <li>
+         <li>
             <Link href="/events">
-              <a>Events</a>
+              <a>Cheat Sheets</a>
             </Link>
           </li>
-         {session &&
+         {/*session &&
           <li>
             <button onClick={() => signOut()}>Logout</button>
-          </li>}
+        </li>*/}
         </ul>
        
       </nav>

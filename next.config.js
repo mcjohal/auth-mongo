@@ -11,7 +11,7 @@ module.exports = (phase) => {
         mongodb_username: "mari",
         mongodb_password: "giniDelia1967",
         mongodb_clustername: "cluster0",
-        mongodb_database: "authdb",
+        mongodb_database: "jtech",
         NEXTAUTH_URL: "http://localhost:3000/",
       },
     };
@@ -22,8 +22,8 @@ module.exports = (phase) => {
       mongodb_username: "mari",
       mongodb_password: "giniDelia1967",
       mongodb_clustername: "cluster0",
-      mongodb_database: "authdb",
-      NEXTAUTH_URL: "https://auth-mongo.vercel.app",
+      mongodb_database: "jtech",
+      NEXTAUTH_URL: "https://j28tech.vercel.app",
     },
   };
 };
