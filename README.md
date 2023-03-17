@@ -32,3 +32,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Colors https://www.flerlagetwins.com/2021/06/datafam-colors-color-palette.html
+Frosted Class #eceff1;
+White Blue #cfd8dc;
+Arctic Feelings #b9bec5;
+Codet Grey #90a4ae;
+Sheltered Bay #78909c;
+Whale Shark #607d8b;
+Blue Sentinel #546e7a;
+Blue Tapestry #455a64;
+Azul Petroleo # 37474f;
+Nightshade Blue #263238;
